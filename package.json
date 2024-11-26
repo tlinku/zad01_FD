@@ -1,5 +1,5 @@
 {
-  "name": "${PROJECT_NAME}",
+  "name": "zad01_FD",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
