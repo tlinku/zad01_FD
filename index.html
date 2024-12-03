@@ -7,8 +7,17 @@
     <title>Info o pokemonach</title>
   </head>
   <body>
-    <input type="text" id="userInput" placeholder="Podaj nazwę Pokemona" />
-    <button id="submitButton">Wyszukaj</button>
+    <div id="searcher">
+      <div id="main_search">
+        <input type="text" id="userInput" placeholder="Podaj nazwę Pokemona" />
+        <button id="submitButton">Wyszukaj</button>
+      </div>
+      <div id="siatka">
+        <button id="wyświetlana_siatka6">Wyświetl 6</button>
+        <button id="wyświetlana_siatka12">Wyświetl 12</button>
+        <button id="wyświetlana_siatka24">Wyświetl 24</button>
+      </div>
+    </div>
     <div id="pokemonList"></div>
 
     <script src="app.js"></script>

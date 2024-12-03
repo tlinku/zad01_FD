@@ -1,53 +1,82 @@
-function general() {
-  document
-    .getElementById("submitButton")
-    .addEventListener("click", async function () {
-      try {
-        const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        displayPokemonList(data.results);
-      } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      }
-    });
-}
+document
+  .getElementById("wyświetlana_siatka6")
+  .addEventListener("click", () => displayPokemonList(6));
 
-function displayPokemonList(pokemonList) {
+document
+  .getElementById("wyświetlana_siatka12")
+  .addEventListener("click", () => displayPokemonList(12));
+
+document
+  .getElementById("wyświetlana_siatka24")
+  .addEventListener("click", () => displayPokemonList(24));
+
+function displayPokemonDetails(pokemon) {
   const pokemonListDiv = document.getElementById("pokemonList");
-  pokemonListDiv.innerHTML = pokemonList
-    .map((pokemon) => `<p>${pokemon.name}</p>`)
-    .join("");
+
+  const pokemonDiv = document.createElement("div");
+  pokemonDiv.classList.add("pokemon");
+
+  const pokemonName = document.createElement("h2");
+  pokemonName.textContent = pokemon.name;
+
+  const pokemonImage = document.createElement("img");
+  pokemonImage.src = pokemon.sprites.front_default;
+  pokemonImage.alt = pokemon.name;
+
+  const pokemonHeight = document.createElement("p");
+  pokemonHeight.textContent = `Height: ${pokemon.height}`;
+
+  const pokemonWeight = document.createElement("p");
+  pokemonWeight.textContent = `Weight: ${pokemon.weight}`;
+
+  const pokemonAbilities = document.createElement("p");
+  pokemonAbilities.textContent = `Abilities: ${pokemon.abilities
+    .map((ability) => ability.ability.name)
+    .join(", ")}`;
+
+  pokemonDiv.appendChild(pokemonName);
+  pokemonDiv.appendChild(pokemonImage);
+  pokemonDiv.appendChild(pokemonHeight);
+  pokemonDiv.appendChild(pokemonWeight);
+  pokemonDiv.appendChild(pokemonAbilities);
+  pokemonListDiv.appendChild(pokemonDiv);
+}
+async function displayPokemonList(PokeNumber) {
+  const pokemonListDiv = document.getElementById("pokemonList");
+  pokemonListDiv.innerHTML = "";
+
+  const promises = Array.from({ length: PokeNumber }, (_, i) =>
+    fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`).then((response) =>
+      response.json()
+    )
+  );
+
+  try {
+    const PokemonData = await Promise.all(promises);
+    PokemonData.forEach((pokemon) => displayPokemonDetails(pokemon));
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 }
 
-function details() {
-  document
-    .getElementById("submitButton")
-    .addEventListener("click", async function () {
-      const pokemon = document.getElementById("userInput").value;
-      try {
-        const wynik = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-        );
-        const wynik2 = await wynik.json;
-        console.log(wynik);
-      } catch (error) {
-        console.error("wystąpił błąd pobierania");
+displayPokemonList(20);
+
+document
+  .getElementById("submitButton")
+  .addEventListener("click", async function () {
+    const pokemon = document.getElementById("userInput").value.toLowerCase();
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    });
-  const wynik3 = {
-    name: wynik2.name,
-    height: wynik2.height,
-    weight: wynik2.weight,
-    abilities: wynik2.abilities.map((ability) => ability.name),
-  };
-  return wynik3;
-}
-general();
+      const data = await response.json();
+      // Clear previous results
+      document.getElementById("pokemonList").innerHTML = "";
+      displayPokemonDetails(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  });
