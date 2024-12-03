@@ -34,22 +34,21 @@ body {
   display: flex;
 }
 #wyświetlana_siatka6 {
-  margin: 2px 2px 2px 2px;
+  margin: 2px;
   border: 2px solid #333;
   border-radius: 10px;
 }
 #wyświetlana_siatka12 {
-  margin: 2px 2px 2px 2px;
+  margin: 2px;
   border: 2px solid #333;
   border-radius: 10px;
 }
 #wyświetlana_siatka24 {
-  margin: 2px 2px 2px 2px;
+  margin: 2px;
   border: 2px solid #333;
   border-radius: 10px;
 }
 
-/* Basic button styling */
 button {
   background: #333;
   color: #fff;
@@ -68,8 +67,8 @@ button:hover {
 }
 
 .pokemon {
-  border: 1px solid black;
-  border-radius: 1%;
+  border: 2px solid black;
+  border-radius: 15%;
   background-color: #ccc;
   padding: 10px;
   margin: 10px;
